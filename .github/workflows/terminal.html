@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aminyum v1.4.2</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body style="padding: 10px; background-color: black;">
+    <a href="index.html" style="color: red;">Generator</a>
+    <a href="about me.html" style="color: red;">About Me</a>
+    <div id="terminal-container">
+        <br>
+        <input type="text" name="" id="user" placeholder="Enter command" style="border-color: red; background-color: black; color: red; width: 25%;">
+        <button id="enter" style="border-color: red; background-color: black; color: red;" onclick="run()">Run</button>
+        <br>
+        <br>
+        <p id="window" style="color: red;"></p>
+    </div>
+</body>
+<script>
+    const user = document.getElementById("user")
+    const window = document.getElementById("window")
+    let content = ""
+
+    function run() {
+        content = content + "-- Aminyum Generator -- v1.4.2 -- on [JavaScript]"
+        document.getElementById("window").innerHTML = content
+    }; 
+</script>
+</html>

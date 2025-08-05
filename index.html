@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aminyum v1.4.2</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body style="background-color: black; padding: 10px;">
+<div>
+    <a href="about me.html" style="color: red;">About Me</a>
+    <a href="terminal.html" style="color: red;">Terminal</a>
+    <br>
+    <input type="text" id="load" style="border-color: red; background-color: black; color: red;" placeholder="load seed (optional)">
+    <!--<input type="text" id="genorload" style="border-color: red; background-color: black; color: red;">-->
+    <select name="" id="genorload" style="margin: 10px; background-color: black; color: red; border-color: red;">
+      <option value="gen">Generate New</option>
+      <option value="load">Load</option>
+    </select>
+    <button id="gen-button" onclick="draw()" style="margin: 10px; background-color: black; color: red; border-color: red;">Generate</button>
+    <button id="gen-button" onclick="downloadImage()" style="margin: 10px; background-color: black; color: red; border-color: red;">Download PNG</button>
+    <button id="gen-button" onclick="downloadText()" style="margin: 10px; background-color: black; color: red; border-color: red;">Download seed</button>
+    <br>
+    <canvas id="canvas" style="border: 2px red solid;"></canvas>
+</div>
+</body>
+<script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const width = 1000
+    const height = 1000
+
+    canvas.width = width;
+    canvas.height = height;
+
+    let save = ""
+    
+
+    function draw() {
+      save = ""
+      let size = 10
+      let color = "red"
+      let fillcolor = "black"
+      let genorload = document.getElementById("genorload").value;
+      const xtimes = width / size
+      const ytimes = height / size
+      let xpass = 1
+      let ypass = 1
+      let x = size
+      let y = size
+      let a = size
+      let b = 0
+      let random = 0
+      ctx.fillStyle = fillcolor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      let loop = 0
+      let test = ""
+      if (genorload === "gen") {
+        while (ypass < ytimes) {
+          while (xpass < xtimes) {
+              random = Math.floor(Math.random() * 6) + 1
+              if (random == 1) {
+                save = save + "1"
+              } else if (random == 2) {
+                save = save + "2"
+              } else if (random == 3) {
+                save = save + "3"
+              } else if (random == 4) {
+                save = save + "4"
+              } else if (random == 5) {
+                save = save + "5"
+              } else if (random == 6) {
+                save = save + "6"
+              };
+              xpass = xpass + 1
+          };
+          xpass = 1
+          ypass = ypass + 1
+        };
+      } else if (genorload === "load") {
+        save = document.getElementById("load").value
+      };
+      xpass = 1
+      ypass = 1
+      while (ypass < ytimes) {
+          x = size
+          a = size
+          b = y
+          while (xpass < xtimes) {
+              /*random = Math.floor(Math.random() * 4) + 1*/
+              ctx.strokeStyle = color;
+              random = save.charAt(loop);
+              random = parseInt(random);
+              if (random == 1) {
+                  a = x
+                  b = y + size
+              } else if (random == 2) {
+                  a = x
+                  b = y - size
+              } else if (random == 3) {
+                  a = x + size
+                  b = y
+              } else if (random == 4) {
+                  a = x - size
+                  b = y
+              } else if (random == 5) {
+                a = x
+                b = y
+                ctx.strokeStyle = "black";
+              } else if (random == 6) {
+                a = x
+                b = y
+                ctx.strokeStyle = "black";
+              };
+              ctx.beginPath();
+              ctx.moveTo(x, y);
+              ctx.lineTo(a, b);
+              ctx.lineWidth = size / 5;
+              ctx.lineCap = "square";
+              ctx.stroke();
+              xpass = xpass + 1
+              x = x + size
+              a = x + size
+              loop = loop + 1
+          };
+          y = y + size
+          xpass = 1
+          ypass = ypass + 1
+      };
+    };
+
+    function downloadImage() {
+        const dataURL = canvas.toDataURL();
+        const link = document.createElement('a');
+        link.href = dataURL;
+        link.download = 'generated_map.png'; // Set the desired filename
+        link.click();
+    }
+
+    function downloadText() {
+    //const textInput = document.getElementById('load');
+    const textToSave = save;
+    const filename = 'myTextFile.txt'; // You can make this dynamic if needed
+
+    // Create a Blob object from the text
+    const blob = new Blob([textToSave], { type: 'text/plain;charset=utf-8' });
+
+    // Create a temporary URL for the Blob
+    const url = URL.createObjectURL(blob);
+
+    // Create a temporary <a> element
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename; // Set the download filename
+
+    // Programmatically click the <a> element to trigger the download
+    document.body.appendChild(a); // Append to body to ensure it's clickable
+    a.click();
+
+    // Clean up: revoke the URL and remove the <a> element
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+    document.getElementById("print-save").innerHTML = loop
+</script>
+</html>
